@@ -1,0 +1,27 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    
+
+@{
+ViewBag.Title = "Standings";
+}
+@using(Html.BeginForm("Index", "Home"))
+ {
+
+<input type="text" id="inputTeamSearch" name="customCase"  placeholder="Custom Case">
+<input type="submit" id="Index" value="Change Case" />    
+
+Html.EndForm(); 
+ } 
+@foreach (var item in Model)
+{
+    <div>
+        @item
+        <hr />
+    </div>
+}
+</div>
