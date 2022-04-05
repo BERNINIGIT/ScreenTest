@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ScreenTest.Models;
+using ScreenTest.Services.Contracts;
+using ScreenTest.Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace ScreenTest
         {
             services.AddControllersWithViews();
             services.AddDbContext<FoodContext>(options => options.UseSqlServer("Data Source=LAPTOP-B8OPCG5E\\SQLEXPRESS;Initial Catalog=Food;Integrated Security=SSPI;"));
+            services.AddTransient<ICasing, BasicCasing>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

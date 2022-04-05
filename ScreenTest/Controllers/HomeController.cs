@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ScreenTest.Models;
+using ScreenTest.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,21 +14,20 @@ namespace ScreenTest.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly FoodContext _foodContext;
+        private readonly ICasing _casing;
 
-        public HomeController(ILogger<HomeController> logger, FoodContext foodContext)
+        public HomeController(ILogger<HomeController> logger, FoodContext foodContext, ICasing casing)
         {
             _logger = logger;
             _foodContext = foodContext;
+            _casing = casing;
         }
-        //[HttpPost]
         public IActionResult Index(string customCase = "NoCasing")
         {
-            //List<string> dishes = new List<string>() { "Dish1", "Dish2"};
             List<string> dishes = _foodContext.Dishes.Select( s => s.DishName).ToList();
-            if(customCase == "UpperCase")
-                dishes = dishes.Select(x => x.ToUpperInvariant()).ToList();
-            else if(customCase == "LowerCase")
-                dishes = dishes.Select(x => x.ToLowerInvariant()).ToList();
+            
+            dishes = dishes.Select(x => _casing.ChangeCasing(x, customCase)).ToList();
+            
             return View(dishes);
         }
 
